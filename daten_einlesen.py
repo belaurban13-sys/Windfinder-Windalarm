@@ -59,6 +59,13 @@ def extrahiere_forecast_liste(forecast_data_init):
                     "temp_kelvin": werte["at"][1],
                 }
                 ergebnis.append(punkt)
+      
+    MS_ZU_KNOTEN = 1.943844
+    KELVIN_ZU_CELSIUS = 273.15
+    for eintrag in ergebnis:
+        eintrag['wind_kn'] = round(eintrag.pop('wind_ms') * MS_ZU_KNOTEN, 1)
+        eintrag['boeen_kn'] = round(eintrag.pop('boeen_ms') * MS_ZU_KNOTEN, 1)
+        eintrag['temp_celsius'] = round(eintrag.pop('temp_kelvin') - KELVIN_ZU_CELSIUS, 1)
 
     return ergebnis
 
