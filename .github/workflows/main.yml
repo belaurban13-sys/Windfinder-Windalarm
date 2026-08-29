@@ -1,0 +1,27 @@
+name: Wind-Check
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # läuft täglich um 06:00 UTC = 08:00 Uhr MESZ (Sommerzeit)
+  workflow_dispatch:       # erlaubt manuelles Auslösen über den "Run workflow"-Button
+
+jobs:
+  check-wind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Abhängigkeiten installieren
+        run: pip install requests
+
+      - name: Wind-Check ausführen
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: alarm_prüfen.py
